@@ -1,13 +1,1556 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Top Fades Barbershop | Premium Men's Grooming</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top Fades Barbershop | Erin Mills, Mississauga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ──────────────────────────────────────────── */
+:root {
+  --bg:      #f5f0e8;
+  --bg-alt:  #fefdfb;
+  --ink:     #111110;
+  --ink-mid: #6b6860;
+  --ink-lt:  #b0aca5;
+  --red:     #b83228;
+  --rule:    rgba(17,17,16,0.1);
+  --rule-dk: rgba(17,17,16,0.18);
+}
 
+/* ── RESET ───────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  overflow-x: hidden;
+}
+
+/* ── GRAIN ───────────────────────────────────────────── */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  z-index:9990;
+  pointer-events:none;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.88' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:160px 160px;
+}
+
+
+/* ── NAV ─────────────────────────────────────────────── */
+nav {
+  position:fixed; top:0; left:0; right:0;
+  z-index:200;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:1rem 4rem;
+  background:var(--bg);
+  border-bottom:1px solid var(--rule);
+  transition:border-color .3s;
+}
+nav.at-top { border-color:transparent; }
+.nav-logo {
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  line-height:0;
+}
+.nav-logo img {
+  display:block;
+  height:42px;
+  width:auto;
+  max-width:210px;
+  object-fit:contain;
+  border-radius:50%;
+}
+.nav-links { display:flex; gap:2.5rem; list-style:none; }
+.nav-links a {
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+  text-decoration:none;
+  transition:color .2s;
+}
+.nav-links a:hover { color:var(--ink); }
+.nav-cta {
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--bg);
+  background:var(--ink);
+  padding:.6rem 1.5rem;
+  text-decoration:none;
+  transition:background .2s;
+  display:inline-block;
+}
+.nav-cta:hover { background:var(--red); }
+
+/* ── HERO ────────────────────────────────────────────── */
+.hero {
+  min-height:100svh;
+  padding:5rem 4rem 3rem;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  background:var(--bg);
+  position:relative;
+  overflow:hidden;
+}
+.hero-photo-bg {
+  position:absolute; inset:0;
+  z-index:0;
+}
+.hero-photo-bg img {
+  width:100%; height:100%;
+  object-fit:cover;
+  object-position:center top;
+  display:block;
+  filter:brightness(.45) contrast(1.05) saturate(.8);
+}
+.hero-photo-bg::after {
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(
+    to bottom,
+    rgba(17,17,16,.3) 0%,
+    rgba(17,17,16,.15) 40%,
+    rgba(17,17,16,.65) 100%
+  );
+}
+/* When photo is present, flip text colors */
+.hero.has-photo .hero-masthead,
+.hero.has-photo .hero-headline,
+.hero.has-photo .hero-aside p,
+.hero.has-photo .hero-address { color:rgba(245,240,232,.85); }
+.hero.has-photo .hero-aside .rating { color:rgba(245,240,232,.5); }
+.hero.has-photo .hero-masthead { border-color:rgba(245,240,232,.15); }
+.hero.has-photo .hero-footer { border-color:rgba(245,240,232,.15); }
+.hero.has-photo .hero-headline .accent { color:var(--red); }
+.hero-inner { position:relative; z-index:1; display:contents; }
+
+.hero-masthead {
+  display:flex; justify-content:space-between; align-items:center;
+  padding-bottom:1.2rem;
+  border-bottom:1px solid var(--rule-dk);
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+  opacity:0;
+  animation:fadeUp .6s .1s forwards;
+}
+.status-row {
+  display:flex; align-items:center; gap:.5rem;
+}
+.status-dot {
+  width:6px; height:6px;
+  border-radius:50%;
+  background:var(--red);
+  flex-shrink:0;
+}
+.status-dot.open { background:#3a8c5c; }
+
+/* The headline — this is the whole design */
+.hero-body {
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:end;
+  padding:2rem 0 1.5rem;
+}
+.hero-headline {
+  font-size:clamp(5.5rem, 14vw, 17rem);
+  font-weight:300;
+  font-style:italic;
+  line-height:.88;
+  letter-spacing:-.025em;
+  color:var(--ink);
+  opacity:0;
+  animation:fadeUp .9s .25s forwards;
+}
+/* The one red moment */
+.hero-headline .accent { color:var(--red); }
+
+.hero-aside {
+  text-align:right;
+  padding-bottom:.5rem;
+  max-width:200px;
+  opacity:0;
+  animation:fadeUp .9s .45s forwards;
+}
+.hero-aside p {
+  font-size:1.05rem;
+  font-style:italic;
+  font-weight:300;
+  color:var(--ink-mid);
+  line-height:1.7;
+  margin-bottom:.8rem;
+}
+.hero-aside .rating {
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.15em;
+  color:var(--ink-lt);
+  text-transform:uppercase;
+}
+
+.hero-footer {
+  display:flex; justify-content:space-between; align-items:center;
+  padding-top:1.2rem;
+  border-top:1px solid var(--rule-dk);
+  opacity:0;
+  animation:fadeUp .7s .6s forwards;
+}
+.hero-address {
+  font-family:'DM Mono',monospace;
+  font-size:.6rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+  line-height:1.8;
+}
+
+/* ── BUTTONS ─────────────────────────────────────────── */
+.btn-primary {
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--bg);
+  background:var(--ink);
+  padding:.9rem 2rem;
+  text-decoration:none;
+  transition:background .2s, transform .15s;
+  display:inline-block;
+  flex-shrink:0;
+}
+.btn-primary:hover { background:var(--red); transform:translateY(-1px); }
+.btn-ghost {
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink);
+  border:1px solid rgba(17,17,16,.25);
+  padding:.9rem 2rem;
+  text-decoration:none;
+  transition:border-color .2s;
+  display:inline-block;
+}
+.btn-ghost:hover { border-color:var(--ink); }
+
+/* ── MARQUEE — dark bar, inverts the palette ─────────── */
+.marquee-wrap {
+  background:var(--ink);
+  padding:.75rem 0;
+  overflow:hidden;
+}
+.marquee-track {
+  display:flex; width:max-content;
+  animation:marquee 24s linear infinite;
+}
+.marquee-item {
+  font-family:'DM Mono',monospace;
+  font-size:.75rem;
+  letter-spacing:.28em;
+  color:rgba(245,240,232,.55);
+  padding:0 2rem;
+  white-space:nowrap;
+  text-transform:uppercase;
+}
+.marquee-sep { color:var(--red); opacity:.8; }
+@keyframes marquee {
+  from { transform:translateX(0); }
+  to   { transform:translateX(-50%); }
+}
+
+/* ── SHARED SECTION PARTS ────────────────────────────── */
+.section-label {
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+  margin-bottom:2.5rem;
+  display:flex; align-items:center; gap:1rem;
+}
+.section-label::after {
+  content:'';
+  flex:1; height:1px;
+  background:var(--rule-dk);
+}
+
+/* ── SERVICES ────────────────────────────────────────── */
+.services {
+  background:var(--bg-alt);
+  padding:5rem 4rem;
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+}
+.services-header {
+  display:flex; justify-content:space-between; align-items:flex-start;
+  margin-bottom:3rem;
+  padding-bottom:2rem;
+  border-bottom:1px solid var(--rule-dk);
+}
+.services-title {
+  font-size:clamp(2.5rem, 5vw, 5rem);
+  font-weight:300;
+  font-style:italic;
+  line-height:.95;
+  letter-spacing:-.02em;
+  color:var(--ink);
+}
+.service-list { display:flex; flex-direction:column; }
+.service-row {
+  display:grid;
+  grid-template-columns:3rem 1fr 1fr;
+  gap:1.5rem;
+  align-items:baseline;
+  padding:1.5rem 0;
+  border-bottom:1px solid var(--rule);
+  transition:background .2s;
+  cursor:none;
+  position:relative;
+}
+.service-row::before {
+  content:'';
+  position:absolute; left:-4rem; top:0; bottom:0;
+  width:0;
+  background:rgba(184,50,40,.04);
+  transition:width .4s ease;
+}
+.service-row:hover::before { width:calc(100% + 8rem); }
+.service-row:last-child { border-bottom:none; }
+.svc-num {
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.1em;
+  color:var(--ink-lt);
+  padding-top:.3rem;
+}
+.svc-name {
+  font-size:1.7rem;
+  font-weight:400;
+  font-style:italic;
+  color:var(--ink);
+  line-height:1;
+}
+.svc-desc {
+  font-size:1rem;
+  font-weight:300;
+  font-style:italic;
+  color:var(--ink-mid);
+  line-height:1.5;
+  text-align:right;
+}
+
+/* ── REVIEWS ─────────────────────────────────────────── */
+.reviews {
+  background:var(--bg);
+  padding:5rem 4rem;
+  border-bottom:1px solid var(--rule);
+}
+.reviews-inner {
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:3rem;
+}
+.review-item { display:flex; flex-direction:column; }
+.review-text {
+  font-size:1.35rem;
+  font-weight:300;
+  font-style:italic;
+  line-height:1.65;
+  color:var(--ink);
+  flex:1;
+  margin-bottom:1.5rem;
+  position:relative;
+  padding-top:1.5rem;
+}
+.review-text::before {
+  content:'\201C';
+  position:absolute; top:0; left:0;
+  font-size:3rem;
+  line-height:1;
+  color:var(--red);
+  font-style:normal;
+  font-weight:300;
+  opacity:.6;
+}
+.review-meta {
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:var(--ink-mid);
+}
+.review-stars { color:var(--ink); margin-bottom:.2rem; font-size:.65rem; }
+
+/* ── HOURS & LOCATION ────────────────────────────────── */
+.hours-location {
+  background:var(--bg-alt);
+  padding:5rem 4rem;
+  border-bottom:1px solid var(--rule);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6rem;
+}
+.hl-section-title {
+  font-size:clamp(2rem, 3.5vw, 3.5rem);
+  font-weight:300;
+  font-style:italic;
+  line-height:.95;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  margin-bottom:2.5rem;
+}
+.hours-table { width:100%; border-collapse:collapse; }
+.hours-table tr {
+  border-bottom:1px solid var(--rule);
+  transition:background .15s;
+}
+.hours-table tr:last-child { border-bottom:none; }
+.hours-table tr:hover { background:rgba(17,17,16,.025); }
+.hours-table tr.today { background:rgba(184,50,40,.04); }
+.hours-table td {
+  padding:.9rem 0;
+  font-size:1rem;
+  font-weight:400;
+  color:var(--ink-mid);
+}
+.hours-table td:first-child {
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--ink);
+  width:50%;
+}
+.hours-table tr.today td { color:var(--red); }
+.today-tag {
+  font-family:'DM Mono',monospace;
+  font-size:.5rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--bg);
+  background:var(--red);
+  padding:.15rem .5rem;
+  margin-left:.6rem;
+  vertical-align:middle;
+}
+.contact-block { margin-top:2.5rem; }
+.contact-row {
+  display:flex; gap:1rem;
+  align-items:flex-start;
+  padding:.8rem 0;
+  border-bottom:1px solid var(--rule);
+}
+.contact-row:last-child { border-bottom:none; }
+.contact-lbl {
+  font-family:'DM Mono',monospace;
+  font-size:.56rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink-lt);
+  width:70px;
+  flex-shrink:0;
+  padding-top:.2rem;
+}
+.contact-val {
+  font-size:1rem;
+  font-style:italic;
+  color:var(--ink);
+  text-decoration:none;
+  transition:color .2s;
+  line-height:1.5;
+}
+.contact-val:hover { color:var(--red); }
+
+.map-block {
+  border:1px solid var(--rule-dk);
+  padding:2.5rem;
+  margin-bottom:1.5rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  gap:2rem;
+  position:relative;
+  overflow:hidden;
+  background:var(--bg-alt);
+}
+/* Grid lines — map aesthetic without an iframe */
+.map-block::before {
+  content:'';
+  position:absolute; inset:0;
+  background-image:
+    linear-gradient(var(--rule) 1px, transparent 1px),
+    linear-gradient(90deg, var(--rule) 1px, transparent 1px);
+  background-size:40px 40px;
+  pointer-events:none;
+}
+.map-pin {
+  font-size:2.2rem;
+  line-height:1;
+  position:relative;
+  z-index:1;
+}
+.map-address {
+  font-size:1.6rem;
+  font-weight:300;
+  font-style:italic;
+  line-height:1.3;
+  color:var(--ink);
+  position:relative;
+  z-index:1;
+}
+
+/* ── CTA — inverted section ──────────────────────────── */
+.cta-section {
+  background:var(--ink);
+  padding:7rem 4rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:4rem;
+}
+.cta-headline {
+  font-size:clamp(3rem, 7vw, 8rem);
+  font-weight:300;
+  font-style:italic;
+  line-height:.9;
+  letter-spacing:-.025em;
+  color:var(--bg);
+}
+.cta-headline .accent { color:var(--red); }
+.cta-right { text-align:right; flex-shrink:0; }
+.cta-sub {
+  font-size:1rem;
+  font-style:italic;
+  font-weight:300;
+  color:rgba(245,240,232,.5);
+  line-height:1.7;
+  margin-bottom:2rem;
+}
+.btn-light {
+  font-family:'DM Mono',monospace;
+  font-size:.65rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--ink);
+  background:var(--bg);
+  padding:.9rem 2rem;
+  text-decoration:none;
+  transition:background .2s, color .2s;
+  display:inline-block;
+}
+.btn-light:hover { background:var(--red); color:var(--bg); }
+
+/* ── FOOTER ──────────────────────────────────────────── */
+footer {
+  background:var(--ink);
+  border-top:1px solid rgba(245,240,232,.08);
+  padding:2.5rem 4rem;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.footer-name {
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:rgba(245,240,232,.4);
+}
+.footer-links { display:flex; gap:2rem; }
+.footer-links a {
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(245,240,232,.35);
+  text-decoration:none;
+  transition:color .2s;
+}
+.footer-links a:hover { color:var(--bg); }
+
+/* ── SCROLL REVEAL ───────────────────────────────────── */
+.reveal {
+  opacity:0;
+  transform:translateY(20px);
+  transition:opacity .75s ease, transform .75s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ── ANIMATIONS ──────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(14px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── HAMBURGER ───────────────────────────────────────── */
+.nav-hamburger {
+  display:none;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-size:1.4rem;
+  color:var(--ink);
+  padding:.2rem .4rem;
+  line-height:1;
+  flex-shrink:0;
+}
+
+/* ── MOBILE NAV OVERLAY ──────────────────────────────── */
+.nav-mobile {
+  display:none;
+  position:fixed; inset:0;
+  z-index:190;
+  background:var(--bg);
+  padding:5.5rem 2rem 3rem;
+  flex-direction:column;
+  gap:0;
+}
+.nav-mobile.open { display:flex; }
+.nav-mobile-links {
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+}
+.nav-mobile-links li {
+  border-bottom:1px solid var(--rule);
+}
+.nav-mobile-links a {
+  font-family:'DM Mono',monospace;
+  font-size:.85rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink);
+  text-decoration:none;
+  padding:1.4rem 0;
+  display:block;
+  transition:color .2s;
+}
+.nav-mobile-links a:hover { color:var(--red); }
+.nav-mobile-cta {
+  margin-top:2.5rem;
+  width:100%;
+  text-align:center;
+  padding:1.1rem 2rem;
+}
+
+/* ── GALLERY CAROUSEL ────────────────────────────────── */
+.gallery {
+  background:var(--bg);
+  padding:5rem 0;
+  border-bottom:1px solid var(--rule);
+}
+.gallery .section-label {
+  padding:0 4rem;
+  margin-bottom:2.5rem;
+}
+.carousel { overflow:hidden; }
+.carousel-track {
+  display:flex;
+  gap:1.5rem;
+  width:max-content;
+  animation:galleryScroll 28s linear infinite;
+}
+.carousel:hover .carousel-track {
+  animation-play-state:paused;
+}
+@keyframes galleryScroll {
+  from { transform:translateX(0); }
+  to   { transform:translateX(-50%); }
+}
+.carousel-slide {
+  flex:0 0 280px;
+  aspect-ratio:4/5;
+  overflow:hidden;
+  border:1px solid var(--rule-dk);
+  background:var(--bg-alt);
+  flex-shrink:0;
+}
+.carousel-slide img {
+  width:100%; height:100%;
+  object-fit:cover;
+  display:block;
+  filter:saturate(.85) contrast(1.05);
+  transition:filter .5s ease, transform .6s ease;
+}
+.carousel-slide:hover img {
+  filter:saturate(1) contrast(1.02);
+  transform:scale(1.04);
+}
+
+/* ── MAP EMBED ───────────────────────────────────────── */
+.map-embed {
+  border:1px solid var(--rule-dk);
+  overflow:hidden;
+  margin-bottom:1.5rem;
+}
+.map-embed iframe {
+  display:block;
+  width:100%;
+  height:320px;
+  border:0;
+}
+
+/* ── BOOKING ONBOARDING ──────────────────────────────── */
+.booking {
+  background:var(--ink);
+  color:var(--bg);
+  padding:6rem 4rem;
+  border-bottom:1px solid rgba(245,240,232,.08);
+}
+.booking .section-label {
+  color:rgba(245,240,232,.48);
+}
+.booking .section-label::after {
+  background:rgba(245,240,232,.14);
+}
+.booking-shell {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px;
+  gap:3rem;
+  align-items:start;
+}
+.booking-panel {
+  border:1px solid rgba(245,240,232,.14);
+  background:rgba(245,240,232,.045);
+  min-height:620px;
+  position:relative;
+  overflow:hidden;
+}
+.booking-panel::before {
+  content:'';
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 12% 8%, rgba(184,50,40,.18), transparent 28%),
+    linear-gradient(135deg, rgba(245,240,232,.08), transparent 38%);
+  pointer-events:none;
+}
+.booking-progress {
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  border-bottom:1px solid rgba(245,240,232,.12);
+  position:relative;
+  z-index:1;
+}
+.booking-progress span {
+  font-family:'DM Mono',monospace;
+  font-size:.52rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(245,240,232,.32);
+  padding:1rem;
+  border-right:1px solid rgba(245,240,232,.1);
+}
+.booking-progress span:last-child { border-right:none; }
+.booking-progress span.active {
+  color:var(--bg);
+  background:rgba(245,240,232,.08);
+}
+.booking-step {
+  padding:3rem;
+  position:relative;
+  z-index:1;
+}
+.booking-kicker {
+  font-family:'DM Mono',monospace;
+  font-size:.58rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--red);
+  margin-bottom:1rem;
+}
+.booking-title {
+  font-size:clamp(2.7rem,5vw,5.8rem);
+  font-weight:300;
+  font-style:italic;
+  line-height:.92;
+  letter-spacing:-.03em;
+  max-width:780px;
+  margin-bottom:1rem;
+}
+.booking-copy {
+  max-width:520px;
+  color:rgba(245,240,232,.55);
+  font-size:1.05rem;
+  font-style:italic;
+  line-height:1.65;
+  margin-bottom:2rem;
+}
+.booking-options {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:.85rem;
+  margin-bottom:2rem;
+}
+.booking-options.compact {
+  grid-template-columns:repeat(4,minmax(0,1fr));
+}
+.booking-option {
+  appearance:none;
+  border:1px solid rgba(245,240,232,.15);
+  background:rgba(17,17,16,.45);
+  color:var(--bg);
+  padding:1.15rem;
+  text-align:left;
+  min-height:116px;
+  cursor:pointer;
+  transition:border-color .2s ease, background .2s ease, transform .16s ease;
+}
+.booking-option:active,
+.booking-nav button:active {
+  transform:scale(.98);
+}
+.booking-option[aria-pressed="true"] {
+  border-color:var(--red);
+  background:rgba(184,50,40,.16);
+}
+.booking-option strong {
+  display:block;
+  font-size:1.45rem;
+  font-weight:300;
+  font-style:italic;
+  line-height:1;
+  margin-bottom:.6rem;
+}
+.booking-option span {
+  display:block;
+  font-family:'DM Mono',monospace;
+  font-size:.52rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:rgba(245,240,232,.48);
+  line-height:1.6;
+}
+.booking-form {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:1rem;
+  margin-bottom:2rem;
+}
+.booking-field {
+  display:flex;
+  flex-direction:column;
+  gap:.55rem;
+}
+.booking-field.full { grid-column:1 / -1; }
+.booking-field label {
+  font-family:'DM Mono',monospace;
+  font-size:.55rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:rgba(245,240,232,.48);
+}
+.booking-field input,
+.booking-field textarea {
+  width:100%;
+  border:1px solid rgba(245,240,232,.16);
+  background:rgba(17,17,16,.45);
+  color:var(--bg);
+  font:400 1rem 'DM Mono',monospace;
+  padding:.95rem 1rem;
+  outline:none;
+  transition:border-color .2s ease, background .2s ease;
+}
+.booking-field textarea {
+  min-height:110px;
+  resize:vertical;
+}
+.booking-field input:focus,
+.booking-field textarea:focus {
+  border-color:var(--red);
+  background:rgba(17,17,16,.68);
+}
+.booking-nav {
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+}
+.booking-nav button {
+  appearance:none;
+  border:1px solid rgba(245,240,232,.24);
+  background:transparent;
+  color:var(--bg);
+  font-family:'DM Mono',monospace;
+  font-size:.62rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  padding:.9rem 1.35rem;
+  cursor:pointer;
+  transition:background .2s ease, border-color .2s ease, transform .16s ease;
+}
+.booking-nav button:hover {
+  border-color:var(--bg);
+}
+.booking-nav .primary {
+  background:var(--bg);
+  color:var(--ink);
+  border-color:var(--bg);
+}
+.booking-nav .primary:hover {
+  background:var(--red);
+  color:var(--bg);
+  border-color:var(--red);
+}
+.booking-summary {
+  position:sticky;
+  top:6rem;
+  border:1px solid rgba(245,240,232,.14);
+  background:rgba(245,240,232,.055);
+  padding:1.5rem;
+}
+.booking-summary h3 {
+  font-size:2.1rem;
+  font-weight:300;
+  font-style:italic;
+  line-height:1;
+  margin-bottom:1.5rem;
+}
+.booking-summary-row {
+  display:flex;
+  justify-content:space-between;
+  gap:1rem;
+  padding:.85rem 0;
+  border-bottom:1px solid rgba(245,240,232,.1);
+}
+.booking-summary-row span:first-child {
+  font-family:'DM Mono',monospace;
+  font-size:.54rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(245,240,232,.38);
+}
+.booking-summary-row span:last-child {
+  text-align:right;
+  color:rgba(245,240,232,.82);
+  font-style:italic;
+}
+.booking-note {
+  font-family:'DM Mono',monospace;
+  font-size:.54rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:rgba(245,240,232,.35);
+  line-height:1.7;
+  margin-top:1.5rem;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media (max-width:900px) {
+  nav { padding:1rem 1.5rem; }
+  .nav-logo img { height:36px; max-width:170px; }
+  .nav-links { display:none; }
+  .nav-hamburger { display:block; }
+  .hero { padding:5rem 1.5rem 2.5rem; }
+  .hero-body { grid-template-columns:1fr; }
+  .hero-aside { display:none; }
+  .hero-footer { flex-wrap:wrap; gap:1rem; }
+  .hero-address { display:none; }
+  .services,.reviews,.hours-location,.gallery,.booking { padding:4rem 1.5rem; }
+  .services-header { flex-direction:column; gap:1.5rem; }
+  .service-row { grid-template-columns:2.5rem 1fr; }
+  .svc-desc { display:none; }
+  .reviews-inner { grid-template-columns:1fr; gap:2.5rem; }
+  .hours-location { grid-template-columns:1fr; gap:3.5rem; }
+  .booking-shell { grid-template-columns:1fr; gap:1.5rem; }
+  .booking-panel { min-height:auto; }
+  .booking-step { padding:2rem 1.25rem; }
+  .booking-progress { grid-template-columns:1fr; }
+  .booking-progress span { display:none; }
+  .booking-progress span.active { display:block; }
+  .booking-options,
+  .booking-options.compact,
+  .booking-form { grid-template-columns:1fr; }
+  .booking-summary { position:static; }
+  .gallery .section-label { padding:0 1.5rem; }
+  .carousel-slide { flex:0 0 220px; }
+  .cta-section { padding:5rem 1.5rem; flex-direction:column; align-items:flex-start; }
+  .cta-right { text-align:left; }
+  footer { padding:2rem 1.5rem; flex-direction:column; gap:1rem; align-items:flex-start; }
+}
+@media (max-width:540px) {
+  .carousel-slide { flex:0 0 180px; }
+  .hero-footer { flex-direction:column; align-items:stretch; }
+  .hero-footer > div { flex-direction:column; gap:.75rem; }
+  .hero-footer .btn-primary,
+  .hero-footer .btn-ghost { text-align:center; }
+  .footer-links { flex-wrap:wrap; gap:.75rem 1.5rem; }
+  .cta-section { padding:4rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ───────────────────────────────────────────── -->
+<nav id="mainNav" class="at-top">
+  <a href="#" class="nav-logo" aria-label="Top Fades Barbershop home">
+    <img
+      src="https://images-prod-1.getsquire.com/39f6f234-0be2-4202-90cf-010db9d3d64b_screenshot-2026-02-13-162015.png"
+      alt="Top Fades Barbershop"
+    >
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#booking">Booking</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#hours">Hours</a></li>
+  </ul>
+  <a href="#booking" class="nav-cta">Book Now ↗</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">☰</button>
+</nav>
+
+<!-- ── MOBILE NAV OVERLAY ──────────────────────────────── -->
+<div class="nav-mobile" id="navMobile" aria-hidden="true">
+  <ul class="nav-mobile-links">
+    <li><a href="#services" class="nav-mobile-link">Services</a></li>
+    <li><a href="#booking" class="nav-mobile-link">Booking</a></li>
+    <li><a href="#gallery" class="nav-mobile-link">Gallery</a></li>
+    <li><a href="#reviews" class="nav-mobile-link">Reviews</a></li>
+    <li><a href="#hours" class="nav-mobile-link">Hours</a></li>
+  </ul>
+  <a href="#booking" class="btn-primary nav-mobile-cta nav-mobile-link">Book Now ↗</a>
+</div>
+
+<!-- ── HERO ──────────────────────────────────────────── -->
+<section class="hero has-photo" id="heroSection">
+
+  <!-- Hero photo — swap src for a locally saved photo for best results -->
+  <div class="hero-photo-bg" id="heroBg">
+    <img
+      id="heroImg"
+      src="https://lh3.googleusercontent.com/geougc/AF1QipMOMzrOF-kz_8BavR3wK-IXnok0zDzmQXQcNPPg=w2000"
+      alt="Top Fades Barbershop"
+    >
+  </div>
+
+  <div class="hero-masthead">
+    <div class="status-row">
+      <span class="status-dot" id="statusDot"></span>
+      <span id="statusText">Open now · 9 AM – 8 PM</span>
+    </div>
+    <span>Erin Mills, Mississauga</span>
+  </div>
+
+  <div class="hero-body">
+    <h1 class="hero-headline">
+      Top<br>Fades<span class="accent">.</span>
+    </h1>
+    <div class="hero-aside">
+      <p>Precision cuts &amp;<br>immaculate fades<br>for every age.</p>
+      <div class="rating">★★★★★ &nbsp;5.0 Google</div>
+    </div>
+  </div>
+
+  <div class="hero-footer">
+    <div class="hero-address">
+      3476 Glen Erin Dr #9<br>
+      Mississauga, ON L5L 3R4
+    </div>
+    <div style="display:flex;gap:1rem">
+      <a href="#booking" class="btn-primary">Book Your Cut ↗</a>
+      <a href="#services" class="btn-ghost">Services</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── MARQUEE ────────────────────────────────────────── -->
+<div class="marquee-wrap">
+  <div class="marquee-track" aria-hidden="true">
+    <span class="marquee-item">Premium Fades</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Beard Grooming</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Precision Cuts</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Kids Welcome</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Open 7 Days</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Erin Mills, Mississauga</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Walk-ins Welcome</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Premium Fades</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Beard Grooming</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Precision Cuts</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Kids Welcome</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Open 7 Days</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Erin Mills, Mississauga</span>
+    <span class="marquee-item marquee-sep">—</span>
+    <span class="marquee-item">Walk-ins Welcome</span>
+    <span class="marquee-item marquee-sep">—</span>
+  </div>
+</div>
+
+<!-- ── SERVICES ───────────────────────────────────────── -->
+<section class="services" id="services">
+  <div class="services-header reveal">
+    <h2 class="services-title">Our<br>Services.</h2>
+    <a href="#booking" class="btn-primary" style="align-self:flex-end">Book Now ↗</a>
+  </div>
+  <div class="service-list reveal" style="transition-delay:.1s">
+    <div class="service-row">
+      <span class="svc-num">01</span>
+      <span class="svc-name">Fade Haircut</span>
+      <span class="svc-desc">Low, mid, and high fades — the cut that built our reputation.</span>
+    </div>
+    <div class="service-row">
+      <span class="svc-num">02</span>
+      <span class="svc-name">Classic Cut</span>
+      <span class="svc-desc">Timeless scissor and clipper work tailored to your face shape.</span>
+    </div>
+    <div class="service-row">
+      <span class="svc-num">03</span>
+      <span class="svc-name">Beard Trim</span>
+      <span class="svc-desc">Sculpted shaping with a hot towel and straight razor finish.</span>
+    </div>
+    <div class="service-row">
+      <span class="svc-num">04</span>
+      <span class="svc-name">Kids' Cut</span>
+      <span class="svc-desc">Patient barbers who make every child's experience fun and easy.</span>
+    </div>
+    <div class="service-row">
+      <span class="svc-num">05</span>
+      <span class="svc-name">Lineup &amp; Edge-Up</span>
+      <span class="svc-desc">Crisp hairline definition — the finishing touch that makes it sharp.</span>
+    </div>
+    <div class="service-row">
+      <span class="svc-num">06</span>
+      <span class="svc-name">Full Groom</span>
+      <span class="svc-desc">Complete cut and beard package. Arrive unkempt, leave immaculate.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── BOOKING ONBOARDING ─────────────────────────────── -->
+<section class="booking" id="booking">
+  <div class="section-label reveal">Book online</div>
+  <div class="booking-shell reveal" id="bookingFlow" style="transition-delay:.1s">
+    <div class="booking-panel">
+      <div class="booking-progress" aria-label="Booking progress">
+        <span data-booking-step-label class="active">01 Service</span>
+        <span data-booking-step-label>02 Barber</span>
+        <span data-booking-step-label>03 Date</span>
+        <span data-booking-step-label>04 Details</span>
+        <span data-booking-step-label>05 Confirm</span>
+      </div>
+
+      <div class="booking-step" data-booking-step>
+        <div class="booking-kicker">Step 01</div>
+        <h2 class="booking-title">Choose the cut.</h2>
+        <p class="booking-copy">Pick the service that fits the visit. This is a front-end request flow, so no appointment is submitted to a booking system yet.</p>
+        <div class="booking-options">
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Fade Haircut" data-booking-meta="$35 · 45 min" aria-pressed="true">
+            <strong>Fade Haircut</strong><span>$35 · 45 min · Low, mid, or high</span>
+          </button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Classic Cut" data-booking-meta="$30 · 35 min" aria-pressed="false">
+            <strong>Classic Cut</strong><span>$30 · 35 min · Scissor and clipper</span>
+          </button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Kids' Cut" data-booking-meta="$25 · 30 min" aria-pressed="false">
+            <strong>Kids' Cut</strong><span>$25 · 30 min · Patient and easy</span>
+          </button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Full Groom" data-booking-meta="$55 · 60 min" aria-pressed="false">
+            <strong>Full Groom</strong><span>$55 · 60 min · Cut and beard</span>
+          </button>
+        </div>
+        <div class="booking-nav">
+          <span></span>
+          <button type="button" class="primary" data-booking-nav="next">Choose Barber</button>
+        </div>
+      </div>
+
+      <div class="booking-step" data-booking-step hidden>
+        <div class="booking-kicker">Step 02</div>
+        <h2 class="booking-title">Pick your chair.</h2>
+        <p class="booking-copy">Select a preferred barber or keep it flexible for the first available chair.</p>
+        <div class="booking-options">
+          <button type="button" class="booking-option" data-booking-option data-booking-group="barber" data-booking-value="First Available" aria-pressed="true">
+            <strong>First Available</strong><span>Fastest open chair</span>
+          </button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="barber" data-booking-value="Saleef" aria-pressed="false">
+            <strong>Saleef</strong><span>Fade specialist</span>
+          </button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="barber" data-booking-value="Hadid" aria-pressed="false">
+            <strong>Hadid</strong><span>Kids and clean classics</span>
+          </button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="barber" data-booking-value="Shop Team" aria-pressed="false">
+            <strong>Shop Team</strong><span>Any trusted barber</span>
+          </button>
+        </div>
+        <div class="booking-nav">
+          <button type="button" data-booking-nav="back">Back</button>
+          <button type="button" class="primary" data-booking-nav="next">Pick Time</button>
+        </div>
+      </div>
+
+      <div class="booking-step" data-booking-step hidden>
+        <div class="booking-kicker">Step 03</div>
+        <h2 class="booking-title">Choose a time.</h2>
+        <p class="booking-copy">A compact appointment picker for the UI. Live availability can be wired in later.</p>
+        <div class="booking-options compact">
+          <button type="button" class="booking-option" data-booking-option data-booking-group="date" data-booking-value="Today" aria-pressed="true"><strong>Today</strong><span>Open until 8 PM</span></button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="date" data-booking-value="Tomorrow" aria-pressed="false"><strong>Tomorrow</strong><span>9 AM - 8 PM</span></button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="date" data-booking-value="Friday" aria-pressed="false"><strong>Friday</strong><span>9 AM - 8 PM</span></button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="date" data-booking-value="Saturday" aria-pressed="false"><strong>Saturday</strong><span>9 AM - 8 PM</span></button>
+        </div>
+        <div class="booking-options compact">
+          <button type="button" class="booking-option" data-booking-option data-booking-group="time" data-booking-value="10:00 AM" aria-pressed="true"><strong>10:00</strong><span>AM</span></button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="time" data-booking-value="12:30 PM" aria-pressed="false"><strong>12:30</strong><span>PM</span></button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="time" data-booking-value="3:00 PM" aria-pressed="false"><strong>3:00</strong><span>PM</span></button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="time" data-booking-value="6:15 PM" aria-pressed="false"><strong>6:15</strong><span>PM</span></button>
+        </div>
+        <div class="booking-nav">
+          <button type="button" data-booking-nav="back">Back</button>
+          <button type="button" class="primary" data-booking-nav="next">Your Details</button>
+        </div>
+      </div>
+
+      <form class="booking-step" data-booking-step data-booking-form hidden>
+        <div class="booking-kicker">Step 04</div>
+        <h2 class="booking-title">Tell us who is coming.</h2>
+        <p class="booking-copy">These fields are UI-only for now. They are ready to connect to email, SMS, or a booking API later.</p>
+        <div class="booking-form">
+          <div class="booking-field">
+            <label for="bookingName">Full name</label>
+            <input id="bookingName" name="name" autocomplete="name" placeholder="Your name" required>
+          </div>
+          <div class="booking-field">
+            <label for="bookingPhone">Phone</label>
+            <input id="bookingPhone" name="phone" autocomplete="tel" placeholder="(905) 555-1234" required>
+          </div>
+          <div class="booking-field full">
+            <label for="bookingNotes">Notes</label>
+            <textarea id="bookingNotes" name="notes" placeholder="Skin fade, beard shape, child appointment, etc."></textarea>
+          </div>
+        </div>
+        <div class="booking-nav">
+          <button type="button" data-booking-nav="back">Back</button>
+          <button type="submit" class="primary">Review Request</button>
+        </div>
+      </form>
+
+      <div class="booking-step" data-booking-step hidden>
+        <div class="booking-kicker">Step 05</div>
+        <h2 class="booking-title">Request ready.</h2>
+        <p class="booking-copy">This confirmation page shows the finished front-end state. The next build step would be sending this request to the shop.</p>
+        <div class="booking-options">
+          <div class="booking-option" aria-pressed="true">
+            <strong>You're set</strong><span>Review the appointment summary on the right.</span>
+          </div>
+          <div class="booking-option" aria-pressed="false">
+            <strong>Need changes?</strong><span>Go back and adjust any part of the request.</span>
+          </div>
+        </div>
+        <div class="booking-nav">
+          <button type="button" data-booking-nav="back">Back</button>
+          <button type="button" class="primary" data-booking-nav="restart">Start Over</button>
+        </div>
+      </div>
+    </div>
+
+    <aside class="booking-summary" aria-live="polite">
+      <h3>Your appointment.</h3>
+      <div class="booking-summary-row"><span>Service</span><span data-booking-summary="service">Fade Haircut</span></div>
+      <div class="booking-summary-row"><span>Price</span><span data-booking-summary="meta">$35 · 45 min</span></div>
+      <div class="booking-summary-row"><span>Barber</span><span data-booking-summary="barber">First Available</span></div>
+      <div class="booking-summary-row"><span>Date</span><span data-booking-summary="date">Today</span></div>
+      <div class="booking-summary-row"><span>Time</span><span data-booking-summary="time">10:00 AM</span></div>
+      <div class="booking-summary-row"><span>Name</span><span data-booking-summary="name">Not added</span></div>
+      <div class="booking-summary-row"><span>Phone</span><span data-booking-summary="phone">Not added</span></div>
+      <p class="booking-note">UI only · no payment · no external booking provider</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ── REVIEWS ────────────────────────────────────────── -->
+<section class="reviews" id="reviews">
+  <div class="section-label reveal">What clients say</div>
+  <div class="reviews-inner reveal" style="transition-delay:.1s">
+    <div class="review-item">
+      <p class="review-text">Saleef is an absolute artist. I've been going six months and every cut has been perfect. The attention to detail is unmatched anywhere in Mississauga.</p>
+      <div class="review-meta">
+        <div class="review-stars">★★★★★</div>
+        Marcus T.
+      </div>
+    </div>
+    <div class="review-item">
+      <p class="review-text">Brought my son for his first haircut and Hadid was so patient with him. He left with the best fade he's ever had. We won't go anywhere else.</p>
+      <div class="review-meta">
+        <div class="review-stars">★★★★★</div>
+        James K.
+      </div>
+    </div>
+    <div class="review-item">
+      <p class="review-text">The shop is immaculate and the vibe is just right — relaxed but professional. Great music, great conversations, always a clean fresh cut.</p>
+      <div class="review-meta">
+        <div class="review-stars">★★★★★</div>
+        Ahmed S.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GALLERY ────────────────────────────────────────── -->
+<section class="gallery" id="gallery">
+  <div class="section-label reveal">The Work</div>
+  <div class="carousel reveal" style="transition-delay:.1s">
+    <div class="carousel-track">
+      <!-- set 1 -->
+      <div class="carousel-slide"><img src="https://lh3.googleusercontent.com/p/AF1QipOmjmRoeM3NlepifKYbdsdQtpE7W8eyTyjq9UsA=w600-h800-k-no" alt="Fade cut" loading="lazy"></div>
+      <div class="carousel-slide"><img src="https://lh3.googleusercontent.com/p/AF1QipOqZRts01mwW2Ow1n0s-F234g7QMh4XOs5nprQa=w600-h800-k-no" alt="Precision haircut" loading="lazy"></div>
+      <div class="carousel-slide"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAE8vyoW-W41gd0xG9jtS7enGJSFmv3Ijjc7kJV9M_rJDJgWTN8iPB2H9eNfw16kZLhak6CgQ7SsLWAe1Wg-szFxGqbf_TmmVnwmvVkSkC5EyPkKgujvM2_Imiq523X2eh_KftB5=w600-h800-k-no" alt="Clean fade" loading="lazy"></div>
+      <div class="carousel-slide"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHX8h5p7_VJWu2bUe6G9CB01HnDyXb322SdgMtHBwZagVR0hXqDfbPk9LkarJF0uaj8zWi_4G9ySl_aq8g9v65atsm6Crj941_WCWdt3EsnefHJJEHUslfTn1MQpJlx10NLCjLu0xHtZAEi=w600-h800-k-no" alt="Fresh cut" loading="lazy"></div>
+      <div class="carousel-slide"><img src="https://lh3.googleusercontent.com/p/AF1QipPU5j6-qHO64iTCjQoREssbkTS4bh1limyD_Zi0=w600-h800-k-no" alt="Haircut result" loading="lazy"></div>
+      <div class="carousel-slide"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGu97mK1cUXbFfhJh13tfVU9HFnptoYYkru8LzC4mwwmyCkVvGp0Nzxvi96xv0xemdC8Tn7THJq7HrZJ0ulKxjvWYYL0-Dx4dUGG5Hu0-sUfGkZlNyJ4B6EUafyNdUkSwRdUWUQ6_Fx2zU8=w600-h800-k-no" alt="Immaculate grooming" loading="lazy"></div>
+      <!-- set 2 — seamless loop duplicate -->
+      <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/p/AF1QipOmjmRoeM3NlepifKYbdsdQtpE7W8eyTyjq9UsA=w600-h800-k-no" alt="" loading="lazy"></div>
+      <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/p/AF1QipOqZRts01mwW2Ow1n0s-F234g7QMh4XOs5nprQa=w600-h800-k-no" alt="" loading="lazy"></div>
+      <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAE8vyoW-W41gd0xG9jtS7enGJSFmv3Ijjc7kJV9M_rJDJgWTN8iPB2H9eNfw16kZLhak6CgQ7SsLWAe1Wg-szFxGqbf_TmmVnwmvVkSkC5EyPkKgujvM2_Imiq523X2eh_KftB5=w600-h800-k-no" alt="" loading="lazy"></div>
+      <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHX8h5p7_VJWu2bUe6G9CB01HnDyXb322SdgMtHBwZagVR0hXqDfbPk9LkarJF0uaj8zWi_4G9ySl_aq8g9v65atsm6Crj941_WCWdt3EsnefHJJEHUslfTn1MQpJlx10NLCjLu0xHtZAEi=w600-h800-k-no" alt="" loading="lazy"></div>
+      <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/p/AF1QipPU5j6-qHO64iTCjQoREssbkTS4bh1limyD_Zi0=w600-h800-k-no" alt="" loading="lazy"></div>
+      <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGu97mK1cUXbFfhJh13tfVU9HFnptoYYkru8LzC4mwwmyCkVvGp0Nzxvi96xv0xemdC8Tn7THJq7HrZJ0ulKxjvWYYL0-Dx4dUGG5Hu0-sUfGkZlNyJ4B6EUafyNdUkSwRdUWUQ6_Fx2zU8=w600-h800-k-no" alt="" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── HOURS & LOCATION ───────────────────────────────── -->
+<section class="hours-location" id="hours">
+  <div class="reveal">
+    <h2 class="hl-section-title">Hours &amp;<br>Contact.</h2>
+    <table class="hours-table">
+      <tbody>
+        <tr id="row-mon"><td>Monday</td><td>9:00 AM – 8:00 PM</td></tr>
+        <tr id="row-tue"><td>Tuesday</td><td>9:00 AM – 8:00 PM</td></tr>
+        <tr id="row-wed"><td>Wednesday</td><td>9:00 AM – 8:00 PM</td></tr>
+        <tr id="row-thu"><td>Thursday</td><td>9:00 AM – 8:00 PM</td></tr>
+        <tr id="row-fri"><td>Friday</td><td>9:00 AM – 8:00 PM</td></tr>
+        <tr id="row-sat"><td>Saturday</td><td>9:00 AM – 8:00 PM</td></tr>
+        <tr id="row-sun"><td>Sunday</td><td>9:00 AM – 8:00 PM</td></tr>
+      </tbody>
+    </table>
+    <div class="contact-block">
+      <div class="contact-row">
+        <span class="contact-lbl">Phone</span>
+        <a href="tel:+19058201077" class="contact-val">(905) 820-1077</a>
+      </div>
+      <div class="contact-row">
+        <span class="contact-lbl">Address</span>
+        <span class="contact-val">3476 Glen Erin Dr #9<br>Mississauga, ON L5L 3R4</span>
+      </div>
+      <div class="contact-row">
+        <span class="contact-lbl">Instagram</span>
+        <a href="https://instagram.com/__top_fades_barbershop" target="_blank" class="contact-val">@__top_fades_barbershop</a>
+      </div>
+    </div>
+  </div>
+  <div class="reveal" style="transition-delay:.15s">
+    <h2 class="hl-section-title">Find<br>Us.</h2>
+    <div class="map-embed">
+      <iframe
+        src="https://maps.google.com/maps?q=3476+Glen+Erin+Dr+%239,+Mississauga,+ON+L5L+3R4&output=embed&z=17"
+        width="100%" height="320"
+        style="border:0"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Top Fades Barbershop location">
+      </iframe>
+    </div>
+    <a href="https://maps.google.com/?q=3476+Glen+Erin+Dr+%239,+Mississauga,+ON+L5L+3R4" target="_blank" class="btn-primary">Open in Google Maps ↗</a>
+  </div>
+</section>
+
+<!-- ── CTA ────────────────────────────────────────────── -->
+<section class="cta-section">
+  <h2 class="cta-headline reveal">
+    Book your<br>cut<span class="accent">.</span>
+  </h2>
+  <div class="cta-right reveal" style="transition-delay:.15s">
+    <p class="cta-sub">Walk-ins welcome<br>Open 7 days · 9 AM – 8 PM</p>
+    <a href="#booking" class="btn-light">Book Your Cut ↗</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <span class="footer-name">© 2026 Top Fades Barbershop · Erin Mills, Mississauga</span>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#hours">Hours</a>
+    <a href="https://instagram.com/__top_fades_barbershop" target="_blank">Instagram ↗</a>
+    <a href="tel:+19058201077">(905) 820-1077</a>
+  </div>
+</footer>
+
+<script>
+// ── HERO PHOTO — strip has-photo if image fails to load ──
+(function(){
+  const img = document.getElementById('heroImg');
+  const hero = document.getElementById('heroSection');
+  const bg = document.getElementById('heroBg');
+  if (!img) return;
+  img.addEventListener('error', function() {
+    hero.classList.remove('has-photo');
+    bg.style.display = 'none';
+  });
+  img.addEventListener('load', function() {
+    if (img.naturalWidth === 0) {
+      hero.classList.remove('has-photo');
+      bg.style.display = 'none';
+    }
+  });
+})();
+
+// ── NAV ───────────────────────────────────────────────
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('at-top', window.scrollY<40);
+},{passive:true});
+
+// ── OPEN/CLOSED STATUS ────────────────────────────────
+(function(){
+  const h=new Date().getHours();
+  const open=h>=9&&h<20;
+  const dot=document.getElementById('statusDot');
+  const txt=document.getElementById('statusText');
+  if(open){
+    dot.classList.add('open');
+    txt.textContent='Open now · 9 AM – 8 PM';
+  } else {
+    txt.textContent='Closed · Opens 9 AM';
+  }
+})();
+
+// ── TODAY'S HOURS ─────────────────────────────────────
+(function(){
+  const keys=['sun','mon','tue','wed','thu','fri','sat'];
+  const row=document.getElementById('row-'+keys[new Date().getDay()]);
+  if(!row) return;
+  row.classList.add('today');
+  const td=row.querySelector('td');
+  const badge=document.createElement('span');
+  badge.className='today-tag'; badge.textContent='Today';
+  td.appendChild(badge);
+})();
+
+// ── HAMBURGER NAV ─────────────────────────────────────
+(function(){
+  const btn = document.getElementById('navHamburger');
+  const overlay = document.getElementById('navMobile');
+  if (!btn || !overlay) return;
+  btn.addEventListener('click', function() {
+    const open = overlay.classList.toggle('open');
+    btn.textContent = open ? '✕' : '☰';
+    overlay.setAttribute('aria-hidden', String(!open));
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  overlay.querySelectorAll('.nav-mobile-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+      overlay.classList.remove('open');
+      btn.textContent = '☰';
+      overlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    });
+  });
+})();
+
+// ── BOOKING ONBOARDING ─────────────────────────────────
+(function(){
+  const root = document.getElementById('bookingFlow');
+  if (!root) return;
+
+  const steps = Array.from(root.querySelectorAll('[data-booking-step]'));
+  const labels = Array.from(root.querySelectorAll('[data-booking-step-label]'));
+  const summary = {};
+  root.querySelectorAll('[data-booking-summary]').forEach(function(el) {
+    summary[el.dataset.bookingSummary] = el;
+  });
+
+  const state = {
+    service: 'Fade Haircut',
+    meta: '$35 · 45 min',
+    barber: 'First Available',
+    date: 'Today',
+    time: '10:00 AM',
+    name: '',
+    phone: ''
+  };
+  let current = 0;
+
+  function render() {
+    steps.forEach(function(step, index) {
+      step.hidden = index !== current;
+    });
+    labels.forEach(function(label, index) {
+      label.classList.toggle('active', index === current);
+    });
+    Object.keys(summary).forEach(function(key) {
+      summary[key].textContent = state[key] || 'Not added';
+    });
+  }
+
+  root.addEventListener('click', function(event) {
+    const option = event.target.closest('[data-booking-option]');
+    if (option) {
+      const group = option.dataset.bookingGroup;
+      if (!group) return;
+      state[group] = option.dataset.bookingValue;
+      if (group === 'service') state.meta = option.dataset.bookingMeta;
+      root.querySelectorAll('[data-booking-group="' + group + '"]').forEach(function(item) {
+        item.setAttribute('aria-pressed', String(item === option));
+      });
+      render();
+      return;
+    }
+
+    const navButton = event.target.closest('[data-booking-nav]');
+    if (!navButton) return;
+    const direction = navButton.dataset.bookingNav;
+    if (direction === 'next') current = Math.min(current + 1, steps.length - 1);
+    if (direction === 'back') current = Math.max(current - 1, 0);
+    if (direction === 'restart') current = 0;
+    render();
+  });
+
+  root.querySelectorAll('input, textarea').forEach(function(field) {
+    field.addEventListener('input', function() {
+      if (field.name in state) state[field.name] = field.value.trim();
+      render();
+    });
+  });
+
+  const form = root.querySelector('[data-booking-form]');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    current = steps.length - 1;
+    render();
+  });
+
+  render();
+})();
+
+// ── SCROLL REVEAL ─────────────────────────────────────
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
