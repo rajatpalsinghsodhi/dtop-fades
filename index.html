@@ -104,17 +104,22 @@ nav.at-top { border-color:transparent; }
 .hero-photo-bg {
   position:absolute; inset:0;
   z-index:0;
+  background:#0c0b0a;
 }
-.hero-photo-bg img {
+.hero-photo-bg img,
+.hero-photo-bg video {
   width:100%; height:100%;
   object-fit:cover;
   object-position:center top;
   display:block;
   filter:brightness(.45) contrast(1.05) saturate(.8);
 }
+.hero-video-backdrop { display:none; }
+.hero-video-main { position:relative; z-index:1; }
 .hero-photo-bg::after {
   content:'';
   position:absolute; inset:0;
+  z-index:2;
   background: linear-gradient(
     to bottom,
     rgba(17,17,16,.3) 0%,
@@ -945,6 +950,28 @@ footer {
 }
 
 /* ── RESPONSIVE ──────────────────────────────────────── */
+@media (min-width:901px) {
+  .hero-photo-bg {
+    display:grid;
+    place-items:center;
+  }
+  .hero-video-backdrop {
+    display:block;
+    position:absolute;
+    inset:0;
+    transform:scale(1.08);
+    filter:brightness(.28) blur(18px) saturate(.85);
+  }
+  .hero-video-main {
+    width:auto;
+    height:100%;
+    max-width:min(46vw, 560px);
+    object-fit:contain;
+    object-position:center center;
+    filter:brightness(.62) contrast(1.04) saturate(.92);
+    box-shadow:0 0 90px rgba(0,0,0,.45);
+  }
+}
 @media (max-width:900px) {
   nav { padding:1rem 1.5rem; }
   .nav-logo img { height:36px; max-width:170px; }
@@ -1024,13 +1051,14 @@ footer {
 <!-- ── HERO ──────────────────────────────────────────── -->
 <section class="hero has-photo" id="heroSection">
 
-  <!-- Hero photo — swap src for a locally saved photo for best results -->
+  <!-- Hero video -->
   <div class="hero-photo-bg" id="heroBg">
-    <img
-      id="heroImg"
-      src="https://lh3.googleusercontent.com/geougc/AF1QipMOMzrOF-kz_8BavR3wK-IXnok0zDzmQXQcNPPg=w2000"
-      alt="Top Fades Barbershop"
-    >
+    <video class="hero-video-backdrop" autoplay muted loop playsinline preload="metadata" aria-hidden="true">
+      <source src="/videos/top-fades-hero.mp4" type="video/mp4">
+    </video>
+    <video id="heroVideo" class="hero-video-main" autoplay muted loop playsinline preload="metadata" aria-label="Top Fades Barbershop">
+      <source src="/videos/top-fades-hero.mp4" type="video/mp4">
+    </video>
   </div>
 
   <div class="hero-masthead">
@@ -1318,6 +1346,8 @@ footer {
       <div class="carousel-slide"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHX8h5p7_VJWu2bUe6G9CB01HnDyXb322SdgMtHBwZagVR0hXqDfbPk9LkarJF0uaj8zWi_4G9ySl_aq8g9v65atsm6Crj941_WCWdt3EsnefHJJEHUslfTn1MQpJlx10NLCjLu0xHtZAEi=w600-h800-k-no" alt="Fresh cut" loading="lazy"></div>
       <div class="carousel-slide"><img src="https://lh3.googleusercontent.com/p/AF1QipPU5j6-qHO64iTCjQoREssbkTS4bh1limyD_Zi0=w600-h800-k-no" alt="Haircut result" loading="lazy"></div>
       <div class="carousel-slide"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGu97mK1cUXbFfhJh13tfVU9HFnptoYYkru8LzC4mwwmyCkVvGp0Nzxvi96xv0xemdC8Tn7THJq7HrZJ0ulKxjvWYYL0-Dx4dUGG5Hu0-sUfGkZlNyJ4B6EUafyNdUkSwRdUWUQ6_Fx2zU8=w600-h800-k-no" alt="Immaculate grooming" loading="lazy"></div>
+      <div class="carousel-slide"><img src="/images/barber-detail-cut.png" alt="Top Fades barber detailing a cut" loading="lazy"></div>
+      <div class="carousel-slide"><img src="/images/hot-towel-service.png" alt="Top Fades hot towel service" loading="lazy"></div>
       <!-- set 2 — seamless loop duplicate -->
       <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/p/AF1QipOmjmRoeM3NlepifKYbdsdQtpE7W8eyTyjq9UsA=w600-h800-k-no" alt="" loading="lazy"></div>
       <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/p/AF1QipOqZRts01mwW2Ow1n0s-F234g7QMh4XOs5nprQa=w600-h800-k-no" alt="" loading="lazy"></div>
@@ -1325,6 +1355,8 @@ footer {
       <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAHX8h5p7_VJWu2bUe6G9CB01HnDyXb322SdgMtHBwZagVR0hXqDfbPk9LkarJF0uaj8zWi_4G9ySl_aq8g9v65atsm6Crj941_WCWdt3EsnefHJJEHUslfTn1MQpJlx10NLCjLu0xHtZAEi=w600-h800-k-no" alt="" loading="lazy"></div>
       <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/p/AF1QipPU5j6-qHO64iTCjQoREssbkTS4bh1limyD_Zi0=w600-h800-k-no" alt="" loading="lazy"></div>
       <div class="carousel-slide" aria-hidden="true"><img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAGu97mK1cUXbFfhJh13tfVU9HFnptoYYkru8LzC4mwwmyCkVvGp0Nzxvi96xv0xemdC8Tn7THJq7HrZJ0ulKxjvWYYL0-Dx4dUGG5Hu0-sUfGkZlNyJ4B6EUafyNdUkSwRdUWUQ6_Fx2zU8=w600-h800-k-no" alt="" loading="lazy"></div>
+      <div class="carousel-slide" aria-hidden="true"><img src="/images/barber-detail-cut.png" alt="" loading="lazy"></div>
+      <div class="carousel-slide" aria-hidden="true"><img src="/images/hot-towel-service.png" alt="" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -1400,18 +1432,18 @@ footer {
 </footer>
 
 <script>
-// ── HERO PHOTO — strip has-photo if image fails to load ──
+// ── HERO VIDEO — strip has-photo if media fails to load ──
 (function(){
-  const img = document.getElementById('heroImg');
+  const video = document.getElementById('heroVideo');
   const hero = document.getElementById('heroSection');
   const bg = document.getElementById('heroBg');
-  if (!img) return;
-  img.addEventListener('error', function() {
+  if (!video) return;
+  video.addEventListener('error', function() {
     hero.classList.remove('has-photo');
     bg.style.display = 'none';
   });
-  img.addEventListener('load', function() {
-    if (img.naturalWidth === 0) {
+  video.addEventListener('loadeddata', function() {
+    if (video.readyState < 2) {
       hero.classList.remove('has-photo');
       bg.style.display = 'none';
     }
