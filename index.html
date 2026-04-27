@@ -856,7 +856,8 @@ footer {
   color:rgba(245,240,232,.48);
 }
 .booking-field input,
-.booking-field textarea {
+.booking-field textarea,
+.booking-field select {
   width:100%;
   border:1px solid rgba(245,240,232,.16);
   background:rgba(17,17,16,.45);
@@ -866,12 +867,30 @@ footer {
   outline:none;
   transition:border-color .2s ease, background .2s ease;
 }
+.booking-field select {
+  appearance:none;
+  cursor:pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(245,240,232,.75) 50%),
+    linear-gradient(135deg, rgba(245,240,232,.75) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 12px) 50%;
+  background-size:6px 6px, 6px 6px;
+  background-repeat:no-repeat;
+  padding-right:2.75rem;
+}
+.booking-field select option {
+  background:#111110;
+  color:var(--bg);
+}
 .booking-field textarea {
   min-height:110px;
   resize:vertical;
 }
 .booking-field input:focus,
-.booking-field textarea:focus {
+.booking-field textarea:focus,
+.booking-field select:focus {
   border-color:var(--red);
   background:rgba(17,17,16,.68);
 }
@@ -1182,19 +1201,28 @@ footer {
       <div class="booking-step" data-booking-step>
         <div class="booking-kicker">Step 01</div>
         <h2 class="booking-title">Choose the cut.</h2>
-        <p class="booking-copy">Pick the service that fits the visit. This is a front-end request flow, so no appointment is submitted to a booking system yet.</p>
+        <p class="booking-copy">Pick from the service pricing visible on Top Fades' SQUIRE listing. This request flow is ready to connect to live booking later.</p>
         <div class="booking-options">
-          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Fade Haircut" data-booking-meta="$35 · 45 min" aria-pressed="true">
-            <strong>Fade Haircut</strong><span>$35 · 45 min · Low, mid, or high</span>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Haircut & Hot Towel Shave (Blade)" data-booking-meta="$60 · 45 min" aria-pressed="true">
+            <strong>Haircut &amp; Hot Towel Shave (Blade)</strong><span>$60 · 45 min · Complimentary hair wash</span>
           </button>
-          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Classic Cut" data-booking-meta="$30 · 35 min" aria-pressed="false">
-            <strong>Classic Cut</strong><span>$30 · 35 min · Scissor and clipper</span>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Haircut & Beard Trim Line-Up (Blade)" data-booking-meta="$55 · 45 min" aria-pressed="false">
+            <strong>Haircut &amp; Beard Trim Line-Up (Blade)</strong><span>$55 · 45 min · Complimentary hair wash</span>
           </button>
-          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Kids' Cut" data-booking-meta="$25 · 30 min" aria-pressed="false">
-            <strong>Kids' Cut</strong><span>$25 · 30 min · Patient and easy</span>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Side Fade & Beard Trim Line-Up (Blade)" data-booking-meta="$50 · 45 min" aria-pressed="false">
+            <strong>Side Fade &amp; Beard Trim Line-Up (Blade)</strong><span>$50 · 45 min · Complimentary hair wash</span>
           </button>
-          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Full Groom" data-booking-meta="$55 · 60 min" aria-pressed="false">
-            <strong>Full Groom</strong><span>$55 · 60 min · Cut and beard</span>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Side Fade & Beard Trim Line-Up (Machine)" data-booking-meta="$45 · 45 min" aria-pressed="false">
+            <strong>Side Fade &amp; Beard Trim Line-Up (Machine)</strong><span>$45 · 45 min · Complimentary hair wash</span>
+          </button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Haircut & Beard Line-Up (Blade)" data-booking-meta="$45 · 45 min" aria-pressed="false">
+            <strong>Haircut &amp; Beard Line-Up (Blade)</strong><span>$45 · 45 min · Line-up only, no beard trim</span>
+          </button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Haircut & Line-Up (Machine)" data-booking-meta="$40 · 30 min" aria-pressed="false">
+            <strong>Haircut &amp; Line-Up (Machine)</strong><span>$40 · 30 min · Complimentary hair wash</span>
+          </button>
+          <button type="button" class="booking-option" data-booking-option data-booking-group="service" data-booking-value="Haircut & Complimentary Hair Wash" data-booking-meta="$30.97 · 30 min" aria-pressed="false">
+            <strong>Haircut &amp; Complimentary Hair Wash</strong><span>$30.97 · 30 min</span>
           </button>
         </div>
         <div class="booking-nav">
@@ -1206,19 +1234,19 @@ footer {
       <div class="booking-step" data-booking-step hidden>
         <div class="booking-kicker">Step 02</div>
         <h2 class="booking-title">Pick your chair.</h2>
-        <p class="booking-copy">Select a preferred barber or keep it flexible for the first available chair.</p>
+        <p class="booking-copy">Select a preferred barber or keep it flexible. The public SQUIRE page does not expose per-barber calendars, so each option uses shop hours availability.</p>
         <div class="booking-options">
           <button type="button" class="booking-option" data-booking-option data-booking-group="barber" data-booking-value="First Available" aria-pressed="true">
-            <strong>First Available</strong><span>Fastest open chair</span>
+            <strong>First Available</strong><span>Best for fastest chair · 9 AM - 8 PM</span>
           </button>
           <button type="button" class="booking-option" data-booking-option data-booking-group="barber" data-booking-value="Saleef" aria-pressed="false">
-            <strong>Saleef</strong><span>Fade specialist</span>
+            <strong>Saleef</strong><span>Fade specialist · request preferred chair</span>
           </button>
           <button type="button" class="booking-option" data-booking-option data-booking-group="barber" data-booking-value="Hadid" aria-pressed="false">
-            <strong>Hadid</strong><span>Kids and clean classics</span>
+            <strong>Hadid</strong><span>Kids and clean classics · request preferred chair</span>
           </button>
           <button type="button" class="booking-option" data-booking-option data-booking-group="barber" data-booking-value="Shop Team" aria-pressed="false">
-            <strong>Shop Team</strong><span>Any trusted barber</span>
+            <strong>Shop Team</strong><span>Any trusted barber · 9 AM - 8 PM</span>
           </button>
         </div>
         <div class="booking-nav">
@@ -1229,19 +1257,17 @@ footer {
 
       <div class="booking-step" data-booking-step hidden>
         <div class="booking-kicker">Step 03</div>
-        <h2 class="booking-title">Choose a time.</h2>
-        <p class="booking-copy">A compact appointment picker for the UI. Live availability can be wired in later.</p>
-        <div class="booking-options compact">
-          <button type="button" class="booking-option" data-booking-option data-booking-group="date" data-booking-value="Today" aria-pressed="true"><strong>Today</strong><span>Open until 8 PM</span></button>
-          <button type="button" class="booking-option" data-booking-option data-booking-group="date" data-booking-value="Tomorrow" aria-pressed="false"><strong>Tomorrow</strong><span>9 AM - 8 PM</span></button>
-          <button type="button" class="booking-option" data-booking-option data-booking-group="date" data-booking-value="Friday" aria-pressed="false"><strong>Friday</strong><span>9 AM - 8 PM</span></button>
-          <button type="button" class="booking-option" data-booking-option data-booking-group="date" data-booking-value="Saturday" aria-pressed="false"><strong>Saturday</strong><span>9 AM - 8 PM</span></button>
-        </div>
-        <div class="booking-options compact">
-          <button type="button" class="booking-option" data-booking-option data-booking-group="time" data-booking-value="10:00 AM" aria-pressed="true"><strong>10:00</strong><span>AM</span></button>
-          <button type="button" class="booking-option" data-booking-option data-booking-group="time" data-booking-value="12:30 PM" aria-pressed="false"><strong>12:30</strong><span>PM</span></button>
-          <button type="button" class="booking-option" data-booking-option data-booking-group="time" data-booking-value="3:00 PM" aria-pressed="false"><strong>3:00</strong><span>PM</span></button>
-          <button type="button" class="booking-option" data-booking-option data-booking-group="time" data-booking-value="6:15 PM" aria-pressed="false"><strong>6:15</strong><span>PM</span></button>
+        <h2 class="booking-title">Choose date &amp; time.</h2>
+        <p class="booking-copy">Pick any day in the next week. Slots are generated every 30 minutes from opening at 9 AM until the final 7:30 PM start before close.</p>
+        <div class="booking-form">
+          <div class="booking-field">
+            <label for="bookingDateSelect">Date</label>
+            <select id="bookingDateSelect" name="bookingDate"></select>
+          </div>
+          <div class="booking-field">
+            <label for="bookingTimeSelect">Time</label>
+            <select id="bookingTimeSelect" name="bookingTime"></select>
+          </div>
         </div>
         <div class="booking-nav">
           <button type="button" data-booking-nav="back">Back</button>
@@ -1294,8 +1320,8 @@ footer {
 
     <aside class="booking-summary" aria-live="polite">
       <h3>Your appointment.</h3>
-      <div class="booking-summary-row"><span>Service</span><span data-booking-summary="service">Fade Haircut</span></div>
-      <div class="booking-summary-row"><span>Price</span><span data-booking-summary="meta">$35 · 45 min</span></div>
+      <div class="booking-summary-row"><span>Service</span><span data-booking-summary="service">Haircut & Hot Towel Shave (Blade)</span></div>
+      <div class="booking-summary-row"><span>Price</span><span data-booking-summary="meta">$60 · 45 min</span></div>
       <div class="booking-summary-row"><span>Barber</span><span data-booking-summary="barber">First Available</span></div>
       <div class="booking-summary-row"><span>Date</span><span data-booking-summary="date">Today</span></div>
       <div class="booking-summary-row"><span>Time</span><span data-booking-summary="time">10:00 AM</span></div>
@@ -1515,16 +1541,68 @@ window.addEventListener('scroll',()=>{
     summary[el.dataset.bookingSummary] = el;
   });
 
+  const dateSelect = root.querySelector('#bookingDateSelect');
+  const timeSelect = root.querySelector('#bookingTimeSelect');
+  const shopHours = {
+    openHour: 9,
+    closeHour: 20,
+    slotMinutes: 30
+  };
+  const dateFormatter = new Intl.DateTimeFormat('en-CA', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric'
+  });
+
   const state = {
-    service: 'Fade Haircut',
-    meta: '$35 · 45 min',
+    service: 'Haircut & Hot Towel Shave (Blade)',
+    meta: '$60 · 45 min',
     barber: 'First Available',
-    date: 'Today',
-    time: '10:00 AM',
+    date: '',
+    time: '',
     name: '',
     phone: ''
   };
   let current = 0;
+
+  function formatTime(totalMinutes) {
+    const hour24 = Math.floor(totalMinutes / 60);
+    const minute = totalMinutes % 60;
+    const suffix = hour24 >= 12 ? 'PM' : 'AM';
+    const hour12 = hour24 % 12 || 12;
+    return hour12 + ':' + String(minute).padStart(2, '0') + ' ' + suffix;
+  }
+
+  function buildDateOptions() {
+    if (!dateSelect) return;
+    const today = new Date();
+    dateSelect.innerHTML = '';
+    for (let index = 0; index < 7; index += 1) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + index);
+      const value = dateFormatter.format(date);
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = index === 0 ? 'Today' : value.replace(',', '');
+      dateSelect.appendChild(option);
+      if (index === 0) state.date = value;
+    }
+  }
+
+  function buildTimeOptions() {
+    if (!timeSelect) return;
+    const openMinutes = shopHours.openHour * 60;
+    const lastStartMinutes = shopHours.closeHour * 60 - shopHours.slotMinutes;
+    timeSelect.innerHTML = '';
+    for (let minutes = openMinutes; minutes <= lastStartMinutes; minutes += shopHours.slotMinutes) {
+      const value = formatTime(minutes);
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = value;
+      timeSelect.appendChild(option);
+      if (minutes === openMinutes) state.time = value;
+    }
+  }
 
   function render() {
     steps.forEach(function(step, index) {
@@ -1535,6 +1613,17 @@ window.addEventListener('scroll',()=>{
     });
     Object.keys(summary).forEach(function(key) {
       summary[key].textContent = state[key] || 'Not added';
+    });
+  }
+
+  function scrollToBookingTop() {
+    const navOffset = 88;
+    const target = root.getBoundingClientRect().top + window.scrollY - navOffset;
+    requestAnimationFrame(function() {
+      window.scrollTo({
+        top: Math.max(target, 0),
+        behavior: 'smooth'
+      });
     });
   }
 
@@ -1559,6 +1648,7 @@ window.addEventListener('scroll',()=>{
     if (direction === 'back') current = Math.max(current - 1, 0);
     if (direction === 'restart') current = 0;
     render();
+    scrollToBookingTop();
   });
 
   root.querySelectorAll('input, textarea').forEach(function(field) {
@@ -1568,6 +1658,20 @@ window.addEventListener('scroll',()=>{
     });
   });
 
+  if (dateSelect) {
+    dateSelect.addEventListener('change', function() {
+      state.date = dateSelect.value;
+      render();
+    });
+  }
+
+  if (timeSelect) {
+    timeSelect.addEventListener('change', function() {
+      state.time = timeSelect.value;
+      render();
+    });
+  }
+
   const form = root.querySelector('[data-booking-form]');
   form.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -1575,6 +1679,8 @@ window.addEventListener('scroll',()=>{
     render();
   });
 
+  buildDateOptions();
+  buildTimeOptions();
   render();
 })();
 
